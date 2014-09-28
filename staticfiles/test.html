@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>tinyMap: Get the markers of visible bounds. - jsFiddle demo by essoduke</title>
+  
+  <script type='text/javascript' src='js/jquery-1.11.1.js'></script>
+      <script type='text/javascript' src="http://maps.google.com/maps/api/js?sensor=false&language=zh-TW"></script>
+      <script type='text/javascript' src="js/jquery.tinyMap.js"></script>
+    
+  
+  <style type='text/css'>
+    #map{width: 100%;height:240px}
+#info{background:#eee;margin-bottom:6px}
+.label{background-color:rgba(0,0,0,0.8);color:#fff;padding:3px}
+  </style>
+<script type='text/javascript'>//<![CDATA[ 
+$(window).load(function(){
+var map = $('#map'),
+    info = $('#info'),
+    m = {};
+
+map.tinyMap({
+    center: { x: '25.037467', y: '121.564077' },
+    // 自訂縮放控制
+    zoomControlOptions: {
+        'style': 'LARGE',
+        'position': 'RIGHT_TOP' // 將縮放拉桿放到右邊
+    },
+    marker: [
+        {
+            id: 'm01', 
+            addr: ['25.037467', '121.564077'], 
+            text: 'marker01' ,
+            label: 'marker01',
+            css: 'label'
+        },
+        {
+            id: 'm02', 
+            addr: ['25.100295', '121.549494'], 
+            text: 'marker02',
+            label: 'marker02',
+            css: 'label'
+        },
+        { 
+            id: 'm03', 
+            addr: ['25.033570', '121.564773'], 
+            text: 'marker03',
+            label: 'marker03',
+            css: 'label'
+        }
+    ],
+    zoom: 16,
+    /**
+     * 綁定地圖事件
+     * 完整事件可以參考 
+     * https://developers.google.com/maps/documentation/javascript/reference?hl=en-us#Map
+     */
+    event: {
+        // 縮放等級變動事件
+        'zoom_changed': function (e) {
+            var m = map.data('tinyMap'),
+                bounds = m.map.getBounds(), //取出目前範圍
+                markers = m._markers, //取出所有標記
+                marker = {},
+                inrange = [],
+                i = 0,
+                msg = '';
+            
+            msg += '目前縮放等級: ' + m.map.getZoom();
+            
+            for (i = 0; i < markers.length; i += 1) {
+                marker = markers[i];       
+                // 逐一判斷標記是否在範圍內
+                if (bounds.contains(marker.position)) {
+                    inrange.push(marker.infoWindow.content);                    
+                }
+            }            
+            msg += '<br />目前可視標記:<br />' + inrange.join('<br />') + '</p>';
+            info.html(msg);
+        }
+    }
+});
+
+
+});//]]>  
+
+</script>
+
+
+</head>
+<body>
+  <div id="info">&nbsp;</div>
+<div id="map"></div>    
+<button id="getBounds">取得範圍內的 Markers</button>
+  
+</body>
+
+
+</html>
+

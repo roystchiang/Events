@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block script_block %}
+    <script type='text/javascript' src="http://maps.google.com/maps/api/js?sensor=false&language=en-CAW"></script>
+    <script src="{% static "js/jquery.tinyMap.js" %}"></script>
+<script type='text/javascript'>//<![CDATA[
+$(window).load(function(){
+var map = $('#map'),
+    info = $('#info'),
+    m = {};
+
+map.tinyMap({
+    center: { x: '49.253', y: '-123.105' },
+    // 自訂縮放控制
+    zoomControlOptions: {
+        'style': 'LARGE',
+        'position': 'RIGHT_TOP' // 將縮放拉桿放到右邊
+    },
+    marker: [
+        {% for event in events %}
+        {addr: ['{{ event.map_lat }}', '{{ event.map_lon }}'], text: '{{ event.name }}', label: '{{ event.name }}', id: '{{ event.id }}', picture: '{{ event.picture }}'},
+        {% endfor %}
+
+    ],
+
+    zoom:12,
+
+    event: {
+         'idle': function (e) {
+            var m = map.data('tinyMap'),
+            bounds = m.map.getBounds(), //取出目前範圍
+            markers = m._markers, //取出所有標記
+            marker = {},
+            inrange = [],
+            i = 0,
+            msg = '';
+
+        for (i = 0; i < markers.length; i += 1) {
+            marker = markers[i];
+            // 逐一判斷標記是否在範圍內
+            if (bounds.contains(marker.position)) {
+                inrange.push(
+                                '<div class="col-md-3 col-sm-3">' +
+                                '<a href="' + marker.infoWindow.id + '">' + '<img src="/media/' + marker.infoWindow.picture + '" class="img-responsive" alt="Responsive image">' + marker.infoWindow.content + '</a>' +
+                                '</div>');
+            }
+        }
+
+        msg += inrange.join("");
+        info.html(msg);
+        }
+    }
+});
+
+
+});//]]>
+
+</script>
+
+{% endblock %}
+{% block body_block %}
+<section id="top">
+    <div class="container">
+        <div id="map"></div>
+    </div>
+</section>
+<section id="event">
+    <div class="container">
+        <div class="row">
+           <div id="info"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}

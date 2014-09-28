@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block script_block %}
+    <script type='text/javascript' src="http://maps.google.com/maps/api/js?sensor=false&language=en-CAW"></script>
+    <script src="{% static "js/jquery.tinyMap.js" %}"></script>
+    <script type='text/javascript'>//<![CDATA[
+$(window).load(function(){
+var map = $('#map'),
+    m = {};
+
+map.tinyMap({
+    center: { x: '{{ event.map_lat }}', y: '{{ event.map_lon }}' },
+    // 自訂縮放控制
+    zoomControlOptions: {
+        'style': 'LARGE',
+        'position': 'RIGHT_TOP' // 將縮放拉桿放到右邊
+    },
+    marker: [
+        {addr: ['{{ event.map_lat }}', '{{ event.map_lon }}'], text: '{{ event.name }}', label: '{{ event.name }}', id: '{{ event.id }}', picture: '{{ event.picture }}'},
+
+    ],
+
+    zoom:14,
+});
+
+
+});//]]>
+
+</script>
+{% endblock %}
+{% block body_block %}
+<section id="top">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <p class="event_title">Event</p>
+                <p class="event_name">{{ event.name }}</p>
+                <p>{% if event.end_date == None %}
+                    {{ event.start_date}}
+                    {% else %}
+                    {{ event.start_date}} to {{event.end_date}}
+                    {% endif %}</p>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <p class="event_description">{{ event.address }}</p>
+                <p class="event_description">{{ event.description|safe }}</p>
+                <a href="/events"><p class="event_description">Back to Events</p></a>
+            </div>
+            <div class="col-md-9">
+                <img src="/media/{{ event.picture }}" class="img-responsive" style="display:block; margin-left:auto; margin-right: auto;"><br>
+                <div id="map" style="height: 350px; width: 600px;"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="content">
+
+</section>
+{% endblock %}
