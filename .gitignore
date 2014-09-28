@@ -14,7 +14,6 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 *.workspace.xml
-settings.py
 *.pyc
 venv
 
