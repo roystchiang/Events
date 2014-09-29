@@ -41,7 +41,7 @@ map.tinyMap({
             if (bounds.contains(marker.position)) {
                 inrange.push(
                                 '<div class="col-md-3 col-sm-3">' +
-                                '<a href="' + marker.infoWindow.id + '">' + '<img src="/media/' + marker.infoWindow.picture + '" class="img-responsive" alt="Responsive image">' + marker.infoWindow.content + '</a>' +
+                                '<a href="' + marker.infoWindow.id + '">' + '<img src="{{ MEDIA_URL }}' + marker.infoWindow.picture + '" class="img-responsive" alt="Responsive image">' + marker.infoWindow.content + '</a>' +
                                 '</div>');
             }
         }

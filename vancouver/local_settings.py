@@ -13,4 +13,3 @@ if USE_S3:
     MEDIA_URL = S3_URL + '/media/'
 
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'media')
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'static')

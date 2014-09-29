@@ -50,7 +50,7 @@ map.tinyMap({
                 <a href="/events"><p class="event_description">Back to Events</p></a>
             </div>
             <div class="col-md-9">
-                <img src="/media/{{ event.picture }}" class="img-responsive" style="display:block; margin-left:auto; margin-right: auto;"><br>
+                <img src="{{ MEDIA_URL }}{{ event.picture }}" class="img-responsive" style="display:block; margin-left:auto; margin-right: auto;"><br>
                 <div id="map" style="height: 350px; width: 600px;"></div>
             </div>
         </div>
