@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'events',
     'backend',
+	'storages',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -105,3 +106,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
